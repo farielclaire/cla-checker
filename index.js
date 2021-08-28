@@ -23,13 +23,13 @@ if (!gistFile || gistFile.length == 0) {
 const [gistUrl, gistVersion] = gistFile.split('/').filter(p => p.length >= 32)
 // get the owner of this pr
 const pulls = execSync(`curl https://api.github.com/repos/${repo}/pulls/${prNumber}`)
-const prList = JSON.parse(pulls.toString())
-const prUserId = prList[0].user.id
+const prInfo = JSON.parse(pulls.toString())
+const prUserId = prInfo.user.id
 if (!prUserId || prUserId < 0) {
     console.log('Failed to get the owner of this pr.')
     process.exit(1)
 }
-const repoId = prList[0].base.repo.id
+const repoId = prInfo.base.repo.id
 // get all repos and gists
 const clas = execSync(`curl -X POST -H 'Content-Type: application/json' -H 'x-token: ${token}' -d '{"repoId":"${repoId}","gist":{"gist_url":"${gistUrl}","gist_version":"${gistVersion}"}}' ${domain}/api/cla/getAll`)
 const signedList = JSON.parse(clas.toString())
