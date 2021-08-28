@@ -33,6 +33,7 @@ const repoId = prInfo.base.repo.id
 // get all repos and gists
 const clas = execSync(`curl -X POST -H 'Content-Type: application/json' -H 'x-token: ${token}' -d '{"repoId":"${repoId}","gist":{"gist_url":"${gistUrl}","gist_version":"${gistVersion}"}}' ${domain}/api/cla/getAll`)
 const signedList = JSON.parse(clas.toString())
+console.log(clas.toString())
 if (signedList.filter(s => parseInt(s.userId) === parseInt(prUserId)).length === 0) {
     console.log('Cla not singed.')
     process.exit(1)
