@@ -20,7 +20,8 @@ if (!gistFile || gistFile.length == 0) {
     console.log('Gist info not provided.')
     process.exit(1)
 }
-const [gistUrl, gistVersion] = gistFile.split('/').filter(p => p.length >= 32)
+let [gistUrl, gistVersion] = gistFile.split('/').filter(p => p.length >= 32)
+gistUrl = gistFile.slice(0, gistFile.indexOf(gistUrl)) + gistUrl
 // get the owner of this pr
 const pulls = execSync(`curl https://api.github.com/repos/${repo}/pulls/${prNumber}`)
 const prInfo = JSON.parse(pulls.toString())
