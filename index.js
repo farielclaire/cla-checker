@@ -22,7 +22,7 @@ if (!gistFile || gistFile.length == 0) {
 }
 const [gistUrl, gistVersion] = gistFile.split('/').filter(p => p.length >= 32)
 // get the owner of this pr
-const pulls = execSync(`https://api.github.com/repos/${repo}/pulls/${prNumber}`)
+const pulls = execSync(`curl https://api.github.com/repos/${repo}/pulls/${prNumber}`)
 const prList = JSON.parse(pulls.toString())
 const prUserId = prList[0].user.id
 if (!prUserId || prUserId < 0) {
