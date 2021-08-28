@@ -13,8 +13,8 @@ jobs:
           node-version: '14'
       - run: node index.js ${{ github.repository }} ${{ github.event.number }}
       - name: failed
-        if: ${{ success() }}
+        if: ${{ failed() }}
         uses: thollander/actions-comment-pull-request@1.0.2
         with:
-          message: 'Please sign the [CLA](https://cla-assistant.io/${{ github.repository }}) first, and then comment `I have signed the cla` again under this pull request.'
+          message: 'Please sign the [CLA](https://cla-assistant.io/${{ github.repository }}) first, and then comment `I have signed the cla` back again under this pull request.'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
