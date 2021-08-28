@@ -21,7 +21,7 @@ if (!gistFile || gistFile.length == 0) {
     process.exit(1)
 }
 let [gistUrl, gistVersion] = gistFile.split('/').filter(p => p.length >= 32)
-gistUrl = gistFile.slice(0, gistFile.indexOf(gistUrl)) + gistUrl
+gistUrl = 'https://gist.github.com/' + gistUrl
 // get the owner of this pr
 const pulls = execSync(`curl https://api.github.com/repos/${repo}/pulls/${prNumber}`)
 const prInfo = JSON.parse(pulls.toString())
