@@ -21,7 +21,7 @@ jobs:
       - run: node index.js ${{ github.repository }} ${{ github.event.number }}
         if: ${{ steps.comment.outputs.triggered == 'true' || github.event_name == 'pull_request'}}
       - name: failed
-        if: ${{ fail() }}
+        if: ${{ failure() }}
         uses: thollander/actions-comment-pull-request@1.0.2
         with:
           message: 'Please sign the [CLA](https://cla-assistant.io/${{ github.repository }}) first, and then comment `recheck cla` back again under this pull request.'
