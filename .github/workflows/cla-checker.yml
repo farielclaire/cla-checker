@@ -15,11 +15,12 @@ jobs:
         with:
           node-version: '14'
       - uses: khan/pull-request-comment-trigger@master
+        if: ${{ github.event_name == 'issue_comment' && (github.event.action == 'created' || github.event.action == 'edited') }}
         id: comment
         with:
           trigger: 'recheck cla'
       - run: node index.js ${{ github.repository }} ${{ github.event.number }}
-        if: ${{ steps.comment.outputs.triggered == 'true' || github.event_name == 'pull_request'}}
+        if: ${{ steps.comment.outputs.triggered == 'true' || github.event_name == 'pull_request' }}
       - name: failed
         if: ${{ failure() }}
         uses: thollander/actions-comment-pull-request@1.0.2
