@@ -1,20 +1,28 @@
-name: CLA Validator
-on: pull_request
+name: CLA Checker
+on:
+  pull_request:
+  issue_comment:
+    types: [created]
 env:
   CLA_GITHUB_TOKEN: ${{ secrets.CLA_GITHUB_TOKEN }}
   CLA_GIST_FILE: ${{ secrets.CLA_GIST_FILE }}
 jobs:
-  validate:
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
+      - uses: khan/pull-request-comment-trigger@master
+        id: comment
+        with:
+          trigger: 'recheck cla'
       - run: node index.js ${{ github.repository }} ${{ github.event.number }}
+        if: ${{ steps.comment.outputs.triggered == 'true' || github.event_name == 'pull_request'}}
       - name: failed
         if: ${{ failed() }}
         uses: thollander/actions-comment-pull-request@1.0.2
         with:
-          message: 'Please sign the [CLA](https://cla-assistant.io/${{ github.repository }}) first, and then comment `I have signed the cla` back again under this pull request.'
+          message: 'Please sign the [CLA](https://cla-assistant.io/${{ github.repository }}) first, and then comment `recheck cla` back again under this pull request.'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
