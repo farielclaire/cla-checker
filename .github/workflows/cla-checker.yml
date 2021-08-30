@@ -1,6 +1,5 @@
 name: CLA Checker
 on:
-  pull_request:
   issue_comment:
     types: [created]
 env:
